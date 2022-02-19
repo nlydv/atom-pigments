@@ -6,7 +6,7 @@ describe 'ColorProjectElement', ->
   beforeEach ->
     jasmineContent = document.body.querySelector('#jasmine-content')
 
-    waitsForPromise -> atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise -> atom.packages.activatePackage('pigments-redux').then (pkg) ->
       pigments = pkg.mainModule
       project = pigments.getProject()
       projectElement = atom.views.getView(project)

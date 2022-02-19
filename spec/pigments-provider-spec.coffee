@@ -6,8 +6,8 @@ describe 'autocomplete provider', ->
     runs ->
       jasmineContent = document.body.querySelector('#jasmine-content')
 
-      atom.config.set('pigments.autocompleteScopes', ['*'])
-      atom.config.set('pigments.sourceNames', [
+      atom.config.set('pigments-redux.autocompleteScopes', ['*'])
+      atom.config.set('pigments-redux.sourceNames', [
         '**/*.styl'
         '**/*.less'
       ])
@@ -26,8 +26,8 @@ describe 'autocomplete provider', ->
       atom.packages.activatePackage('autocomplete-plus').then (pkg) ->
         autocompleteMain = pkg.mainModule
 
-    waitsForPromise 'pigments activation', ->
-      atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise 'pigments-redux activation', ->
+      atom.packages.activatePackage('pigments-redux').then (pkg) ->
         pigments = pkg.mainModule
 
     runs ->
@@ -40,7 +40,7 @@ describe 'autocomplete provider', ->
         editor.setText ''
         editorView = atom.views.getView(editor)
 
-    waitsForPromise 'pigments project initialized', ->
+    waitsForPromise 'pigments-redux project initialized', ->
       project = pigments.getProject()
       project.initialize()
 
@@ -119,7 +119,7 @@ describe 'autocomplete provider', ->
 
     describe 'when the extendAutocompleteToColorValue setting is enabled', ->
       beforeEach ->
-        atom.config.set('pigments.extendAutocompleteToColorValue', true)
+        atom.config.set('pigments-redux.extendAutocompleteToColorValue', true)
 
       describe 'with an opaque color', ->
         it 'displays the color hexadecimal code in the completion item', ->
@@ -148,7 +148,7 @@ describe 'autocomplete provider', ->
 
       describe 'when the autocompleteSuggestionsFromValue setting is enabled', ->
         beforeEach ->
-          atom.config.set('pigments.autocompleteSuggestionsFromValue', true)
+          atom.config.set('pigments-redux.autocompleteSuggestionsFromValue', true)
 
         it 'suggests color variables from hexadecimal values', ->
           runs ->
@@ -234,7 +234,7 @@ describe 'autocomplete provider', ->
 
         describe 'and when extendAutocompleteToVariables is true', ->
           beforeEach ->
-            atom.config.set('pigments.extendAutocompleteToVariables', true)
+            atom.config.set('pigments-redux.extendAutocompleteToVariables', true)
 
           it 'returns suggestions for the matching variable value', ->
             runs ->
@@ -290,7 +290,7 @@ describe 'autocomplete provider', ->
 
   describe 'writing the name of a non-color variable', ->
     it 'returns suggestions for the matching variable', ->
-      atom.config.set('pigments.extendAutocompleteToVariables', false)
+      atom.config.set('pigments-redux.extendAutocompleteToVariables', false)
       runs ->
         expect(editorView.querySelector('.autocomplete-plus')).not.toExist()
 
@@ -309,7 +309,7 @@ describe 'autocomplete provider', ->
 
   describe 'when extendAutocompleteToVariables is true', ->
     beforeEach ->
-      atom.config.set('pigments.extendAutocompleteToVariables', true)
+      atom.config.set('pigments-redux.extendAutocompleteToVariables', true)
 
     describe 'writing the name of a non-color variable', ->
       it 'returns suggestions for the matching variable', ->
@@ -348,8 +348,8 @@ describe 'autocomplete provider', ->
       runs ->
         jasmineContent = document.body.querySelector('#jasmine-content')
 
-        atom.config.set('pigments.autocompleteScopes', ['*'])
-        atom.config.set('pigments.sourceNames', [
+        atom.config.set('pigments-redux.autocompleteScopes', ['*'])
+        atom.config.set('pigments-redux.sourceNames', [
           '**/*.sass'
           '**/*.scss'
         ])
@@ -368,8 +368,8 @@ describe 'autocomplete provider', ->
         atom.packages.activatePackage('autocomplete-plus').then (pkg) ->
           autocompleteMain = pkg.mainModule
 
-      waitsForPromise 'pigments activation', ->
-        atom.packages.activatePackage('pigments').then (pkg) ->
+      waitsForPromise 'pigments-redux activation', ->
+        atom.packages.activatePackage('pigments-redux').then (pkg) ->
           pigments = pkg.mainModule
 
       runs ->
@@ -381,7 +381,7 @@ describe 'autocomplete provider', ->
           editor = e
           editorView = atom.views.getView(editor)
 
-      waitsForPromise 'pigments project initialized', ->
+      waitsForPromise 'pigments-redux project initialized', ->
         project = pigments.getProject()
         project.initialize()
 

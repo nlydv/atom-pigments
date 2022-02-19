@@ -9,7 +9,7 @@ class ColorProjectElement extends HTMLElement
 
   @content: ->
     arrayField = (name, label, setting, description) =>
-      settingName = "pigments.#{name}"
+      settingName = "pigments-redux.#{name}"
 
       @div class: 'control-group array', =>
         @div class: 'controls', =>
@@ -27,7 +27,7 @@ class ColorProjectElement extends HTMLElement
               booleanField("ignoreGlobal#{capitalize name}", 'Ignore Global', null, true)
 
     selectField = (name, label, {options, setting, description, useBoolean}={}) =>
-      settingName = "pigments.#{name}"
+      settingName = "pigments-redux.#{name}"
 
       @div class: 'control-group array', =>
         @div class: 'controls', =>
@@ -79,10 +79,10 @@ class ColorProjectElement extends HTMLElement
           arrayField('ignoredNames', 'Ignored Names')
           arrayField('supportedFiletypes', 'Supported Filetypes')
           arrayField('ignoredScopes', 'Ignored Scopes')
-          arrayField('searchNames', 'Extended Search Names', 'pigments.extendedSearchNames')
+          arrayField('searchNames', 'Extended Search Names', 'pigments-redux.extendedSearchNames')
           selectField('sassShadeAndTintImplementation', 'Sass Shade And Tint Implementation', {
             options: ['', 'compass', 'bourbon']
-            setting: 'pigments.sassShadeAndTintImplementation'
+            setting: 'pigments-redux.sassShadeAndTintImplementation'
             description: "Sass doesn't provide any implementation for shade and tint function, and Compass and Bourbon have different implementation for these two methods. This setting allow you to chose which implementation use."
           })
 

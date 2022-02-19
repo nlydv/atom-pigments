@@ -68,7 +68,7 @@ class ColorBuffer
     @subscriptions.add @project.onDidChangeIgnoredScopes =>
       @updateIgnoredScopes()
 
-    @subscriptions.add atom.config.observe 'pigments.delayBeforeScan', (@delayBeforeScan=0) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.delayBeforeScan', (@delayBeforeScan=0) =>
 
     if @editor.addMarkerLayer?
       @markerLayer = @editor.addMarkerLayer()

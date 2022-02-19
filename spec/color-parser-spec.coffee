@@ -9,7 +9,7 @@ describe 'ColorParser', ->
   [parser] = []
 
   beforeEach ->
-    svgColorExpression = registry.getExpression('pigments:named_colors')
+    svgColorExpression = registry.getExpression('pigments-redux:named_colors')
     svgColorExpression.scopes = ['*']
 
   asColor = (value) -> "color:#{value}"

@@ -60,10 +60,10 @@ class ColorBufferElement extends HTMLElement
     @subscriptions.add @editor.onDidChangeSelectionRange =>
       @requestSelectionUpdate()
 
-    @subscriptions.add atom.config.observe 'pigments.maxDecorationsInGutter', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.maxDecorationsInGutter', =>
       @update()
 
-    @subscriptions.add atom.config.observe 'pigments.markerType', (type) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.markerType', (type) =>
       @initializeNativeDecorations(type)
       @previousType = type
 
@@ -274,7 +274,7 @@ class ColorBufferElement extends HTMLElement
     markersByRows = {}
     maxRowLength = 0
     scrollLeft = @editorElement.getScrollLeft()
-    maxDecorationsInGutter = atom.config.get('pigments.maxDecorationsInGutter')
+    maxDecorationsInGutter = atom.config.get('pigments-redux.maxDecorationsInGutter')
 
     for m in markers
       if m.color?.isValid() and m not in @displayedMarkers

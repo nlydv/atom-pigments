@@ -15,9 +15,6 @@ class PathLoader
     @scannedPaths = []
 
     @repo = null
-    if ignoreVcsIgnores
-      repo = atom.project.repositories[0].getRepo().workingDirectory
-      @repo = repo if atom.project.repositories[0].isProjectAtRoot() is true
 
   load: (done) ->
     @loadPath @rootPath, =>

@@ -5,12 +5,12 @@ describe 'ColorResultsElement', ->
   [search, resultsElement, pigments, project, completeSpy, findSpy] = []
 
   beforeEach ->
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.sourceNames', [
       '**/*.styl'
       '**/*.less'
     ]
 
-    waitsForPromise -> atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise -> atom.packages.activatePackage('pigments-redux').then (pkg) ->
       pigments = pkg.mainModule
       project = pigments.getProject()
 

@@ -47,8 +47,8 @@ describe 'ColorBufferElement', ->
     atom.config.set 'editor.softWrapAtPreferredLineLength', true
     atom.config.set 'editor.preferredLineLength', 40
 
-    atom.config.set 'pigments.delayBeforeScan', 0
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.delayBeforeScan', 0
+    atom.config.set 'pigments-redux.sourceNames', [
       '*.styl'
       '*.less'
     ]
@@ -58,7 +58,7 @@ describe 'ColorBufferElement', ->
         editor = o
         editorElement = atom.views.getView(editor)
 
-    waitsForPromise -> atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise -> atom.packages.activatePackage('pigments-redux').then (pkg) ->
       pigments = pkg.mainModule
       project = pigments.getProject()
 
@@ -183,7 +183,7 @@ describe 'ColorBufferElement', ->
         beforeEach ->
           waitsForPromise -> colorBuffer.initialize()
           runs ->
-            atom.config.set 'pigments.markerType', 'gutter'
+            atom.config.set 'pigments-redux.markerType', 'gutter'
             gutter = editorElement.querySelector('[gutter-name="pigments-gutter"]')
 
         it 'removes the markers', ->
@@ -243,7 +243,7 @@ describe 'ColorBufferElement', ->
 
         describe 'when the marker is changed again', ->
           beforeEach ->
-            atom.config.set 'pigments.markerType', 'native-background'
+            atom.config.set 'pigments-redux.markerType', 'native-background'
 
           it 'removes the gutter', ->
             expect(editorElement.querySelector('[gutter-name="pigments-gutter"]')).not.toExist()
@@ -288,7 +288,7 @@ describe 'ColorBufferElement', ->
       it 'moves the editor with the buffer to the new pane', ->
         expect(getEditorDecorations('native-background').length).toEqual(3)
 
-    describe 'when pigments.supportedFiletypes settings is defined', ->
+    describe 'when pigments-redux.supportedFiletypes settings is defined', ->
       loadBuffer = (filePath) ->
         waitsForPromise ->
           atom.workspace.open(filePath).then (o) ->
@@ -309,7 +309,7 @@ describe 'ColorBufferElement', ->
 
       describe 'with the default wildcard', ->
         beforeEach ->
-          atom.config.set 'pigments.supportedFiletypes', ['*']
+          atom.config.set 'pigments-redux.supportedFiletypes', ['*']
 
         it 'supports every filetype', ->
           loadBuffer('scope-filter.coffee')
@@ -322,7 +322,7 @@ describe 'ColorBufferElement', ->
 
       describe 'with a filetype', ->
         beforeEach ->
-          atom.config.set 'pigments.supportedFiletypes', ['coffee']
+          atom.config.set 'pigments-redux.supportedFiletypes', ['coffee']
 
         it 'supports the specified file type', ->
           loadBuffer('scope-filter.coffee')
@@ -335,7 +335,7 @@ describe 'ColorBufferElement', ->
 
       describe 'with many filetypes', ->
         beforeEach ->
-          atom.config.set 'pigments.supportedFiletypes', ['coffee']
+          atom.config.set 'pigments-redux.supportedFiletypes', ['coffee']
           project.setSupportedFiletypes(['less'])
 
         it 'supports the specified file types', ->
@@ -353,7 +353,7 @@ describe 'ColorBufferElement', ->
 
         describe 'with global file types ignored', ->
           beforeEach ->
-            atom.config.set 'pigments.supportedFiletypes', ['coffee']
+            atom.config.set 'pigments-redux.supportedFiletypes', ['coffee']
             project.setIgnoreGlobalSupportedFiletypes(true)
             project.setSupportedFiletypes(['less'])
 
@@ -370,7 +370,7 @@ describe 'ColorBufferElement', ->
             runs ->
               expect(getEditorDecorations('native-background').length).toEqual(0)
 
-    describe 'when pigments.ignoredScopes settings is defined', ->
+    describe 'when pigments-redux.ignoredScopes settings is defined', ->
       beforeEach ->
         waitsForPromise ->
           atom.packages.activatePackage('language-coffee-script')
@@ -387,28 +387,28 @@ describe 'ColorBufferElement', ->
 
       describe 'with one filter', ->
         beforeEach ->
-          atom.config.set('pigments.ignoredScopes', ['\\.comment'])
+          atom.config.set('pigments-redux.ignoredScopes', ['\\.comment'])
 
         it 'ignores the colors that matches the defined scopes', ->
           expect(getEditorDecorations('native-background').length).toEqual(1)
 
       describe 'with two filters', ->
         beforeEach ->
-          atom.config.set('pigments.ignoredScopes', ['\\.string', '\\.comment'])
+          atom.config.set('pigments-redux.ignoredScopes', ['\\.string', '\\.comment'])
 
         it 'ignores the colors that matches the defined scopes', ->
           expect(getEditorDecorations('native-background').length).toEqual(0)
 
       describe 'with an invalid filter', ->
         beforeEach ->
-          atom.config.set('pigments.ignoredScopes', ['\\'])
+          atom.config.set('pigments-redux.ignoredScopes', ['\\'])
 
         it 'ignores the filter', ->
           expect(getEditorDecorations('native-background').length).toEqual(2)
 
       describe 'when the project ignoredScopes is defined', ->
         beforeEach ->
-          atom.config.set('pigments.ignoredScopes', ['\\.string'])
+          atom.config.set('pigments-redux.ignoredScopes', ['\\.string'])
           project.setIgnoredScopes(['\\.comment'])
 
         it 'ignores the colors that matches the defined scopes', ->

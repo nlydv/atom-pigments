@@ -16,11 +16,11 @@ describe 'ColorProject', ->
   [project, promise, rootPath, paths, eventSpy] = []
 
   beforeEach ->
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.sourceNames', [
       '*.styl'
     ]
-    atom.config.set 'pigments.ignoredNames', []
-    atom.config.set 'pigments.filetypesForColorWords', ['*']
+    atom.config.set 'pigments-redux.ignoredNames', []
+    atom.config.set 'pigments-redux.filetypesForColorWords', ['*']
 
     [fixturesPath] = atom.project.getPaths()
     rootPath = "#{fixturesPath}/project"
@@ -181,7 +181,7 @@ describe 'ColorProject', ->
 
   describe 'when the project has no variables source files', ->
     beforeEach ->
-      atom.config.set 'pigments.sourceNames', ['*.sass']
+      atom.config.set 'pigments-redux.sourceNames', ['*.sass']
 
       [fixturesPath] = atom.project.getPaths()
       rootPath = "#{fixturesPath}-no-sources"
@@ -199,7 +199,7 @@ describe 'ColorProject', ->
 
   describe 'when the project has custom source names defined', ->
     beforeEach ->
-      atom.config.set 'pigments.sourceNames', ['*.sass']
+      atom.config.set 'pigments-redux.sourceNames', ['*.sass']
 
       [fixturesPath] = atom.project.getPaths()
 
@@ -216,7 +216,7 @@ describe 'ColorProject', ->
 
   describe 'when the project has looping variable definition', ->
     beforeEach ->
-      atom.config.set 'pigments.sourceNames', ['*.sass']
+      atom.config.set 'pigments-redux.sourceNames', ['*.sass']
 
       [fixturesPath] = atom.project.getPaths()
       rootPath = "#{fixturesPath}-with-recursion"
@@ -532,7 +532,7 @@ describe 'ColorProject', ->
 
     describe 'when the project has multiple root directory', ->
       beforeEach ->
-        atom.config.set 'pigments.sourceNames', ['**/*.sass', '**/*.styl']
+        atom.config.set 'pigments-redux.sourceNames', ['**/*.sass', '**/*.styl']
 
         [fixturesPath] = atom.project.getPaths()
         atom.project.setPaths([
@@ -550,7 +550,7 @@ describe 'ColorProject', ->
     describe 'when the project has VCS ignored files', ->
       [projectPath] = []
       beforeEach ->
-        atom.config.set 'pigments.sourceNames', ['*.sass']
+        atom.config.set 'pigments-redux.sourceNames', ['*.sass']
 
         fixture = path.join(__dirname, 'fixtures', 'project-with-gitignore')
 
@@ -570,7 +570,7 @@ describe 'ColorProject', ->
 
       describe 'when the ignoreVcsIgnoredPaths setting is enabled', ->
         beforeEach ->
-          atom.config.set 'pigments.ignoreVcsIgnoredPaths', true
+          atom.config.set 'pigments-redux.ignoreVcsIgnoredPaths', true
           project = new ColorProject({})
 
           waitsForPromise -> project.initialize()
@@ -583,7 +583,7 @@ describe 'ColorProject', ->
           beforeEach ->
             spy = jasmine.createSpy('did-update-variables')
             project.onDidUpdateVariables(spy)
-            atom.config.set 'pigments.ignoreVcsIgnoredPaths', false
+            atom.config.set 'pigments-redux.ignoreVcsIgnoredPaths', false
 
             waitsFor -> spy.callCount > 0
 
@@ -595,7 +595,7 @@ describe 'ColorProject', ->
 
       describe 'when the ignoreVcsIgnoredPaths setting is disabled', ->
         beforeEach ->
-          atom.config.set 'pigments.ignoreVcsIgnoredPaths', false
+          atom.config.set 'pigments-redux.ignoreVcsIgnoredPaths', false
           project = new ColorProject({})
 
           waitsForPromise -> project.initialize()
@@ -608,7 +608,7 @@ describe 'ColorProject', ->
           beforeEach ->
             spy = jasmine.createSpy('did-update-variables')
             project.onDidUpdateVariables(spy)
-            atom.config.set 'pigments.ignoreVcsIgnoredPaths', true
+            atom.config.set 'pigments-redux.ignoreVcsIgnoredPaths', true
 
             waitsFor -> spy.callCount > 0
 
@@ -631,7 +631,7 @@ describe 'ColorProject', ->
 
       beforeEach ->
         originalPaths = project.getPaths()
-        atom.config.set 'pigments.sourceNames', []
+        atom.config.set 'pigments-redux.sourceNames', []
 
         waitsFor -> project.getPaths().join(',') isnt originalPaths.join(',')
 
@@ -645,7 +645,7 @@ describe 'ColorProject', ->
           originalPaths = project.getPaths()
           project.onDidUpdateVariables(updateSpy)
 
-          atom.config.set 'pigments.sourceNames', ['**/*.styl']
+          atom.config.set 'pigments-redux.sourceNames', ['**/*.styl']
 
           waitsFor -> project.getPaths().join(',') isnt originalPaths.join(',')
           waitsFor -> updateSpy.callCount > 0
@@ -658,7 +658,7 @@ describe 'ColorProject', ->
 
       beforeEach ->
         originalPaths = project.getPaths()
-        atom.config.set 'pigments.ignoredNames', ['**/*.styl']
+        atom.config.set 'pigments-redux.ignoredNames', ['**/*.styl']
 
         waitsFor -> project.getPaths().join(',') isnt originalPaths.join(',')
 
@@ -672,7 +672,7 @@ describe 'ColorProject', ->
           originalPaths = project.getPaths()
           project.onDidUpdateVariables(updateSpy)
 
-          atom.config.set 'pigments.ignoredNames', []
+          atom.config.set 'pigments-redux.ignoredNames', []
 
           waitsFor -> project.getPaths().join(',') isnt originalPaths.join(',')
           waitsFor -> updateSpy.callCount > 0
@@ -706,7 +706,7 @@ describe 'ColorProject', ->
 
       describe 'for the ignoredNames field', ->
         beforeEach ->
-          atom.config.set 'pigments.ignoredNames', ['*.foo']
+          atom.config.set 'pigments-redux.ignoredNames', ['*.foo']
           project.ignoredNames = ['*.bar']
 
           project.setIgnoreGlobalIgnoredNames(true)
@@ -719,7 +719,7 @@ describe 'ColorProject', ->
 
       describe 'for the ignoredScopes field', ->
         beforeEach ->
-          atom.config.set 'pigments.ignoredScopes', ['\\.comment']
+          atom.config.set 'pigments-redux.ignoredScopes', ['\\.comment']
           project.ignoredScopes = ['\\.source']
 
           project.setIgnoreGlobalIgnoredScopes(true)
@@ -732,7 +732,7 @@ describe 'ColorProject', ->
 
       describe 'for the searchNames field', ->
         beforeEach ->
-          atom.config.set 'pigments.extendedSearchNames', ['*.css']
+          atom.config.set 'pigments-redux.extendedSearchNames', ['*.css']
           project.searchNames = ['*.foo']
 
           project.setIgnoreGlobalSearchNames(true)
@@ -755,7 +755,7 @@ describe 'ColorProject', ->
           atom.themes.activateThemes()
 
         waitsForPromise ->
-          atom.packages.activatePackage('pigments')
+          atom.packages.activatePackage('pigments-redux')
 
       afterEach ->
         atom.themes.deactivateThemes()
@@ -782,7 +782,7 @@ describe 'ColorProject', ->
           atom.themes.activateThemes()
 
         waitsForPromise ->
-          atom.packages.activatePackage('pigments')
+          atom.packages.activatePackage('pigments-redux')
 
         waitsForPromise ->
           project.initialize()
@@ -900,7 +900,7 @@ describe 'ColorProject', ->
 
     describe 'with a sourceNames setting value different than when serialized', ->
       beforeEach ->
-        atom.config.set('pigments.sourceNames', [])
+        atom.config.set('pigments-redux.sourceNames', [])
 
         project = createProject
           stateFixture: "empty-project.json"
@@ -1003,7 +1003,7 @@ describe 'ColorProject', ->
   [project, rootPath] = []
   describe 'when the project has a pigments defaults file', ->
     beforeEach ->
-      atom.config.set 'pigments.sourceNames', ['*.sass']
+      atom.config.set 'pigments-redux.sourceNames', ['*.sass']
 
       [fixturesPath] = atom.project.getPaths()
       rootPath = "#{fixturesPath}/project-with-defaults"

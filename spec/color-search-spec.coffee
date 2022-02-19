@@ -5,18 +5,18 @@ describe 'ColorSearch', ->
   [search, pigments, project] = []
 
   beforeEach ->
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.sourceNames', [
       '**/*.styl'
       '**/*.less'
     ]
-    atom.config.set 'pigments.extendedSearchNames', [
+    atom.config.set 'pigments-redux.extendedSearchNames', [
       '**/*.css'
     ]
-    atom.config.set 'pigments.ignoredNames', [
+    atom.config.set 'pigments-redux.ignoredNames', [
       'project/vendor/**'
     ]
 
-    waitsForPromise -> atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise -> atom.packages.activatePackage('pigments-redux').then (pkg) ->
       pigments = pkg.mainModule
       project = pigments.getProject()
 

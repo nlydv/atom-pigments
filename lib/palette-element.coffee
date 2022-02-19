@@ -7,9 +7,9 @@ class PaletteElement extends HTMLElement
   EventsDelegation.includeInto(this)
 
   @content: ->
-    sort = atom.config.get('pigments.sortPaletteColors')
-    group = atom.config.get('pigments.groupPaletteColors')
-    merge = atom.config.get('pigments.mergeColorDuplicates')
+    sort = atom.config.get('pigments-redux.sortPaletteColors')
+    group = atom.config.get('pigments-redux.groupPaletteColors')
+    merge = atom.config.get('pigments-redux.mergeColorDuplicates')
     optAttrs = (bool, name, attrs) ->
       attrs[name] = name if bool
       attrs
@@ -46,7 +46,7 @@ class PaletteElement extends HTMLElement
       @init()
     else
       subscription = atom.packages.onDidActivatePackage (pkg) =>
-        if pkg.name is 'pigments'
+        if pkg.name is 'pigments' or 'pigments-redux'
           subscription.dispose()
           @project = pigments.getProject()
           @init()
@@ -63,23 +63,23 @@ class PaletteElement extends HTMLElement
         @renderList() if @attached
 
 
-    @subscriptions.add atom.config.observe 'pigments.sortPaletteColors', (@sortPaletteColors) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.sortPaletteColors', (@sortPaletteColors) =>
       @renderList() if @palette? and @attached
 
-    @subscriptions.add atom.config.observe 'pigments.groupPaletteColors', (@groupPaletteColors) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.groupPaletteColors', (@groupPaletteColors) =>
       @renderList() if @palette? and @attached
 
-    @subscriptions.add atom.config.observe 'pigments.mergeColorDuplicates', (@mergeColorDuplicates) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.mergeColorDuplicates', (@mergeColorDuplicates) =>
       @renderList() if @palette? and @attached
 
     @subscriptions.add @subscribeTo @sort, 'change': (e) ->
-      atom.config.set 'pigments.sortPaletteColors', e.target.value
+      atom.config.set 'pigments-redux.sortPaletteColors', e.target.value
 
     @subscriptions.add @subscribeTo @group, 'change': (e) ->
-      atom.config.set 'pigments.groupPaletteColors', e.target.value
+      atom.config.set 'pigments-redux.groupPaletteColors', e.target.value
 
     @subscriptions.add @subscribeTo @merge, 'change': (e) ->
-      atom.config.set 'pigments.mergeColorDuplicates', e.target.checked
+      atom.config.set 'pigments-redux.mergeColorDuplicates', e.target.checked
 
     @subscriptions.add @subscribeTo @list, '[data-variable-id]', 'click': (e) =>
       variableId = Number(e.target.dataset.variableId)

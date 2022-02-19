@@ -30,7 +30,7 @@ class ColorProject
       delete state.variables
       delete state.buffers
 
-    if not compareArray(state.globalSourceNames, atom.config.get('pigments.sourceNames')) or not compareArray(state.globalIgnoredNames, atom.config.get('pigments.ignoredNames'))
+    if not compareArray(state.globalSourceNames, atom.config.get('pigments-redux.sourceNames')) or not compareArray(state.globalIgnoredNames, atom.config.get('pigments-redux.ignoredNames'))
       delete state.variables
       delete state.buffers
       delete state.paths
@@ -61,32 +61,32 @@ class ColorProject
     @subscriptions.add @variables.onDidChange (results) =>
       @emitVariablesChangeEvent(results)
 
-    @subscriptions.add atom.config.observe 'pigments.sourceNames', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.sourceNames', =>
       @updatePaths()
 
-    @subscriptions.add atom.config.observe 'pigments.ignoredNames', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.ignoredNames', =>
       @updatePaths()
 
-    @subscriptions.add atom.config.observe 'pigments.ignoredBufferNames', (@ignoredBufferNames) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.ignoredBufferNames', (@ignoredBufferNames) =>
       @updateColorBuffers()
 
-    @subscriptions.add atom.config.observe 'pigments.ignoredScopes', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.ignoredScopes', =>
       @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
-    @subscriptions.add atom.config.observe 'pigments.supportedFiletypes', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.supportedFiletypes', =>
       @updateIgnoredFiletypes()
       @emitter.emit('did-change-ignored-scopes', @getIgnoredScopes())
 
-    @subscriptions.add atom.config.observe 'pigments.ignoreVcsIgnoredPaths', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.ignoreVcsIgnoredPaths', =>
       @loadPathsAndVariables()
 
-    @subscriptions.add atom.config.observe 'pigments.sassShadeAndTintImplementation', =>
+    @subscriptions.add atom.config.observe 'pigments-redux.sassShadeAndTintImplementation', =>
       @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
         registry: @colorExpressionsRegistry
       }
 
     svgColorExpression = @colorExpressionsRegistry.getExpression('pigments:named_colors')
-    @subscriptions.add atom.config.observe 'pigments.filetypesForColorWords', (scopes) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.filetypesForColorWords', (scopes) =>
       svgColorExpression.scopes = scopes ? []
       @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
         name: svgColorExpression.name
@@ -176,8 +176,8 @@ class ColorProject
       @paths = []
       @loadPathsAndVariables()
     .then =>
-      if atom.config.get('pigments.notifyReloads')
-        atom.notifications.addSuccess("Pigments successfully reloaded", dismissable: atom.config.get('pigments.dismissableReloadNotifications'), description: """Found:
+      if atom.config.get('pigments-redux.notifyReloads')
+        atom.notifications.addSuccess("Pigments successfully reloaded", dismissable: atom.config.get('pigments-redux.dismissableReloadNotifications'), description: """Found:
         - **#{@paths.length}** path(s)
         - **#{@getVariables().length}** variables(s) including **#{@getColorVariables().length}** color(s)
         """)
@@ -348,9 +348,9 @@ class ColorProject
         @timestamp
         ignoredNames: @getIgnoredNames()
         paths: rootPaths
-        traverseIntoSymlinkDirectories: atom.config.get 'pigments.traverseIntoSymlinkDirectories'
+        traverseIntoSymlinkDirectories: atom.config.get 'pigments-redux.traverseIntoSymlinkDirectories'
         sourceNames: @getSourceNames()
-        ignoreVcsIgnores: atom.config.get('pigments.ignoreVcsIgnoredPaths')
+        ignoreVcsIgnores: atom.config.get('pigments-redux.ignoreVcsIgnoredPaths')
       }
       PathsLoader.startTask config, (results) =>
         for p in knownPaths
@@ -528,7 +528,7 @@ class ColorProject
   getRootPaths: -> atom.project.getPaths()
 
   getSassScopeSuffix: ->
-    @sassShadeAndTintImplementation ? atom.config.get('pigments.sassShadeAndTintImplementation') ? 'compass'
+    @sassShadeAndTintImplementation ? atom.config.get('pigments-redux.sassShadeAndTintImplementation') ? 'compass'
 
   setSassShadeAndTintImplementation: (@sassShadeAndTintImplementation) ->
     @colorExpressionsRegistry.emitter.emit 'did-update-expressions', {
@@ -539,7 +539,7 @@ class ColorProject
     names = ['.pigments']
     names = names.concat(@sourceNames ? [])
     unless @ignoreGlobalSourceNames
-      names = names.concat(atom.config.get('pigments.sourceNames') ? [])
+      names = names.concat(atom.config.get('pigments-redux.sourceNames') ? [])
     names
 
   setSourceNames: (@sourceNames=[]) ->
@@ -555,8 +555,8 @@ class ColorProject
     names = names.concat(@sourceNames ? [])
     names = names.concat(@searchNames ? [])
     unless @ignoreGlobalSearchNames
-      names = names.concat(atom.config.get('pigments.sourceNames') ? [])
-      names = names.concat(atom.config.get('pigments.extendedSearchNames') ? [])
+      names = names.concat(atom.config.get('pigments-redux.sourceNames') ? [])
+      names = names.concat(atom.config.get('pigments-redux.extendedSearchNames') ? [])
     names
 
   setSearchNames: (@searchNames=[]) ->
@@ -571,7 +571,7 @@ class ColorProject
     names
 
   getGlobalIgnoredNames: ->
-    atom.config.get('pigments.ignoredNames')?.map (p) ->
+    atom.config.get('pigments-redux.ignoredNames')?.map (p) ->
       if /\/\*$/.test(p) then p + '*' else p
 
   setIgnoredNames: (@ignoredNames=[]) ->
@@ -591,7 +591,7 @@ class ColorProject
   getIgnoredScopes: ->
     scopes = @ignoredScopes ? []
     unless @ignoreGlobalIgnoredScopes
-      scopes = scopes.concat(atom.config.get('pigments.ignoredScopes') ? [])
+      scopes = scopes.concat(atom.config.get('pigments-redux.ignoredScopes') ? [])
 
     scopes = scopes.concat(@ignoredFiletypes)
     scopes
@@ -613,7 +613,7 @@ class ColorProject
     filetypes = @supportedFiletypes ? []
 
     unless @ignoreGlobalSupportedFiletypes
-      filetypes = filetypes.concat(atom.config.get('pigments.supportedFiletypes') ? [])
+      filetypes = filetypes.concat(atom.config.get('pigments-redux.supportedFiletypes') ? [])
 
     filetypes = ['*'] if filetypes.length is 0
 
@@ -670,8 +670,8 @@ class ColorProject
       timestamp: @getTimestamp()
       version: SERIALIZE_VERSION
       markersVersion: SERIALIZE_MARKERS_VERSION
-      globalSourceNames: atom.config.get('pigments.sourceNames')
-      globalIgnoredNames: atom.config.get('pigments.ignoredNames')
+      globalSourceNames: atom.config.get('pigments-redux.sourceNames')
+      globalIgnoredNames: atom.config.get('pigments-redux.ignoredNames')
 
     if @ignoreGlobalSourceNames?
       data.ignoreGlobalSourceNames = @ignoreGlobalSourceNames

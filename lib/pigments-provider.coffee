@@ -8,14 +8,14 @@ class PigmentsProvider
     CompositeDisposable ?= require('atom').CompositeDisposable
 
     @subscriptions = new CompositeDisposable
-    @selector = atom.config.get('pigments.autocompleteScopes').join(',')
+    @selector = atom.config.get('pigments-redux.autocompleteScopes').join(',')
 
-    @subscriptions.add atom.config.observe 'pigments.autocompleteScopes', (scopes) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.autocompleteScopes', (scopes) =>
       @selector = scopes.join(',')
-    @subscriptions.add atom.config.observe 'pigments.extendAutocompleteToVariables', (@extendAutocompleteToVariables) =>
-    @subscriptions.add atom.config.observe 'pigments.extendAutocompleteToColorValue', (@extendAutocompleteToColorValue) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.extendAutocompleteToVariables', (@extendAutocompleteToVariables) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.extendAutocompleteToColorValue', (@extendAutocompleteToColorValue) =>
 
-    @subscriptions.add atom.config.observe 'pigments.autocompleteSuggestionsFromValue', (@autocompleteSuggestionsFromValue) =>
+    @subscriptions.add atom.config.observe 'pigments-redux.autocompleteSuggestionsFromValue', (@autocompleteSuggestionsFromValue) =>
 
   dispose: ->
     @disposed = true

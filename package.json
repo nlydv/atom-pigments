@@ -247,16 +247,16 @@
         }
     },
     "dependencies": {
-        "underscore-plus": "1.x",
-        "event-kit": "2.x",
-        "fs-plus": "2.x",
-        "async": "0.2.6",
-        "css-color-function": "0.1.x",
-        "minimatch": "3.0.x",
+        "underscore-plus": "^1.0.0",
+        "event-kit": "^2.0.0",
+        "fs-plus": "^3.1.1",
+        "async": "^3.2.0",
+        "css-color-function": "^1.0.0",
+        "minimatch": "^3.0.0",
         "delegato": "^1.0.0",
-        "atom-utils": ">=0.9.2"
+        "atom-utils": "^0.9.2"
     },
     "devDependencies": {
-        "temp": "~0.8.1"
+        "temp": "^0.8.1"
     }
 }

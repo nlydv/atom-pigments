@@ -24,21 +24,21 @@ describe 'ColorBuffer', ->
     advanceClock(500) unless options.noEvent
 
   beforeEach ->
-    atom.config.set 'pigments.delayBeforeScan', 0
-    atom.config.set 'pigments.ignoredBufferNames', []
-    atom.config.set 'pigments.filetypesForColorWords', ['*']
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.delayBeforeScan', 0
+    atom.config.set 'pigments-redux.ignoredBufferNames', []
+    atom.config.set 'pigments-redux.filetypesForColorWords', ['*']
+    atom.config.set 'pigments-redux.sourceNames', [
       '*.styl'
       '*.less'
     ]
 
-    atom.config.set 'pigments.ignoredNames', ['project/vendor/**']
+    atom.config.set 'pigments-redux.ignoredNames', ['project/vendor/**']
 
     waitsForPromise ->
       atom.workspace.open('four-variables.styl').then (o) -> editor = o
 
     waitsForPromise ->
-      atom.packages.activatePackage('pigments').then (pkg) ->
+      atom.packages.activatePackage('pigments-redux').then (pkg) ->
         pigments = pkg.mainModule
         project = pigments.getProject()
       .catch (err) -> console.error err
@@ -53,7 +53,7 @@ describe 'ColorBuffer', ->
     beforeEach ->
       expect(project.hasColorBufferForEditor(editor)).toBeTruthy()
 
-      atom.config.set 'pigments.ignoredBufferNames', ['**/*.styl']
+      atom.config.set 'pigments-redux.ignoredBufferNames', ['**/*.styl']
 
     it 'destroys the color buffer for this file', ->
       expect(project.hasColorBufferForEditor(editor)).toBeFalsy()
@@ -61,7 +61,7 @@ describe 'ColorBuffer', ->
     it 'recreates the color buffer when the settings no longer ignore the file', ->
       expect(project.hasColorBufferForEditor(editor)).toBeFalsy()
 
-      atom.config.set 'pigments.ignoredBufferNames', []
+      atom.config.set 'pigments-redux.ignoredBufferNames', []
 
       expect(project.hasColorBufferForEditor(editor)).toBeTruthy()
 
@@ -436,7 +436,7 @@ describe 'ColorBuffer', ->
   describe 'with a buffer part of the global ignored files', ->
     beforeEach ->
       project.setIgnoredNames([])
-      atom.config.set('pigments.ignoredNames', ['project/vendor/*'])
+      atom.config.set('pigments-redux.ignoredNames', ['project/vendor/*'])
 
       waitsForPromise ->
         atom.workspace.open('project/vendor/css/variables.less').then (o) -> editor = o

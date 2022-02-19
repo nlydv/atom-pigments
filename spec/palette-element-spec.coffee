@@ -11,12 +11,12 @@ describe 'PaletteElement', ->
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
-    atom.config.set 'pigments.sourceNames', [
+    atom.config.set 'pigments-redux.sourceNames', [
       '*.styl'
       '*.less'
     ]
 
-    waitsForPromise -> atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise -> atom.packages.activatePackage('pigments-redux').then (pkg) ->
       pigments = pkg.mainModule
       project = pigments.getProject()
 
@@ -48,9 +48,9 @@ describe 'PaletteElement', ->
     it 'does not render the file link when the variable comes from a theme', ->
       expect(paletteElement.querySelectorAll('li')[4].querySelector(' [data-variable-id]')).not.toExist()
 
-  describe 'when pigments:show-palette commands is triggered', ->
+  describe 'when pigments-redux:show-palette commands is triggered', ->
     beforeEach ->
-      atom.commands.dispatch(workspaceElement, 'pigments:show-palette')
+      atom.commands.dispatch(workspaceElement, 'pigments-redux:show-palette')
 
       waitsFor ->
         paletteElement = workspaceElement.querySelector('pigments-palette')
@@ -84,7 +84,7 @@ describe 'PaletteElement', ->
 
     describe 'when the sortPaletteColors settings is set to color', ->
       beforeEach ->
-        atom.config.set 'pigments.sortPaletteColors', 'by color'
+        atom.config.set 'pigments-redux.sortPaletteColors', 'by color'
 
       it 'reorders the colors', ->
         sortedColors = project.getPalette().sortedByColor().filter((v) -> not v.isAlternate)
@@ -95,7 +95,7 @@ describe 'PaletteElement', ->
 
     describe 'when the sortPaletteColors settings is set to name', ->
       beforeEach ->
-        atom.config.set 'pigments.sortPaletteColors', 'by name'
+        atom.config.set 'pigments-redux.sortPaletteColors', 'by name'
 
       it 'reorders the colors', ->
         sortedColors = project.getPalette().sortedByName().filter((v) -> not v.isAlternate)
@@ -106,7 +106,7 @@ describe 'PaletteElement', ->
 
     describe 'when the groupPaletteColors setting is set to file', ->
       beforeEach ->
-        atom.config.set 'pigments.groupPaletteColors', 'by file'
+        atom.config.set 'pigments-redux.groupPaletteColors', 'by file'
 
       it 'renders the list with sublists for each files', ->
         ols = paletteElement.querySelectorAll('ol ol')
@@ -118,7 +118,7 @@ describe 'PaletteElement', ->
 
       describe 'and the sortPaletteColors is set to name', ->
         beforeEach ->
-          atom.config.set 'pigments.sortPaletteColors', 'by name'
+          atom.config.set 'pigments-redux.sortPaletteColors', 'by name'
 
         it 'sorts the nested list items', ->
           palettes = paletteElement.getFilesPalettes()
@@ -135,7 +135,7 @@ describe 'PaletteElement', ->
 
       describe 'when the mergeColorDuplicates', ->
         beforeEach ->
-          atom.config.set 'pigments.mergeColorDuplicates', true
+          atom.config.set 'pigments-redux.mergeColorDuplicates', true
 
         it 'groups identical colors together', ->
           lis = paletteElement.querySelectorAll('li')
@@ -153,7 +153,7 @@ describe 'PaletteElement', ->
           change(sortSelect)
 
         it 'changes the settings value', ->
-          expect(atom.config.get('pigments.sortPaletteColors')).toEqual('by name')
+          expect(atom.config.get('pigments-redux.sortPaletteColors')).toEqual('by name')
 
     describe 'grouping selector', ->
       [groupSelect] = []
@@ -166,17 +166,17 @@ describe 'PaletteElement', ->
           change(groupSelect)
 
         it 'changes the settings value', ->
-          expect(atom.config.get('pigments.groupPaletteColors')).toEqual('by file')
+          expect(atom.config.get('pigments-redux.groupPaletteColors')).toEqual('by file')
 
   describe 'when the palette settings differs from defaults', ->
     beforeEach ->
-      atom.config.set('pigments.sortPaletteColors', 'by name')
-      atom.config.set('pigments.groupPaletteColors', 'by file')
-      atom.config.set('pigments.mergeColorDuplicates', true)
+      atom.config.set('pigments-redux.sortPaletteColors', 'by name')
+      atom.config.set('pigments-redux.groupPaletteColors', 'by file')
+      atom.config.set('pigments-redux.mergeColorDuplicates', true)
 
-    describe 'when pigments:show-palette commands is triggered', ->
+    describe 'when pigments-redux:show-palette commands is triggered', ->
       beforeEach ->
-        atom.commands.dispatch(workspaceElement, 'pigments:show-palette')
+        atom.commands.dispatch(workspaceElement, 'pigments-redux:show-palette')
 
         waitsFor ->
           paletteElement = workspaceElement.querySelector('pigments-palette')
@@ -201,7 +201,7 @@ describe 'PaletteElement', ->
   describe 'when the project variables are modified', ->
     [spy, initialColorCount] = []
     beforeEach ->
-      atom.commands.dispatch(workspaceElement, 'pigments:show-palette')
+      atom.commands.dispatch(workspaceElement, 'pigments-redux:show-palette')
 
       waitsFor ->
         paletteElement = workspaceElement.querySelector('pigments-palette')
@@ -213,7 +213,7 @@ describe 'PaletteElement', ->
 
         project.onDidUpdateVariables(spy)
 
-        atom.config.set 'pigments.sourceNames', [
+        atom.config.set 'pigments-redux.sourceNames', [
           '*.styl'
           '*.less'
           '*.sass'

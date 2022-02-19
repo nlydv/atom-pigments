@@ -12,29 +12,29 @@ describe "Pigments", ->
     workspaceElement = atom.views.getView(atom.workspace)
     jasmine.attachToDOM(workspaceElement)
 
-    atom.config.set('pigments.sourceNames', ['**/*.sass', '**/*.styl'])
-    atom.config.set('pigments.ignoredNames', [])
-    atom.config.set('pigments.ignoredScopes', [])
-    atom.config.set('pigments.autocompleteScopes', [])
+    atom.config.set('pigments-redux.sourceNames', ['**/*.sass', '**/*.styl'])
+    atom.config.set('pigments-redux.ignoredNames', [])
+    atom.config.set('pigments-redux.ignoredScopes', [])
+    atom.config.set('pigments-redux.autocompleteScopes', [])
 
-    registry.createExpression 'pigments:txt_vars', '^[ \\t]*([a-zA-Z_$][a-zA-Z0-9\\-_]*)\\s*=(?!=)\\s*([^\\n\\r;]*);?$', ['txt']
+    registry.createExpression 'pigments-redux:txt_vars', '^[ \\t]*([a-zA-Z_$][a-zA-Z0-9\\-_]*)\\s*=(?!=)\\s*([^\\n\\r;]*);?$', ['txt']
 
-    waitsForPromise label: 'pigments activation', ->
-      atom.packages.activatePackage('pigments').then (pkg) ->
+    waitsForPromise label: 'pigments-redux activation', ->
+      atom.packages.activatePackage('pigments-redux').then (pkg) ->
         pigments = pkg.mainModule
         project = pigments.getProject()
 
   afterEach ->
-    registry.removeExpression 'pigments:txt_vars'
+    registry.removeExpression 'pigments-redux:txt_vars'
     project?.destroy()
 
   it 'instanciates a ColorProject instance', ->
-    expect(pigments.getProject()).toBeDefined()
+    expect(pigments-redux.getProject()).toBeDefined()
 
   it 'serializes the project', ->
     date = new Date
-    spyOn(pigments.getProject(), 'getTimestamp').andCallFake -> date
-    expect(pigments.serialize()).toEqual({
+    spyOn(pigments-redux.getProject(), 'getTimestamp').andCallFake -> date
+    expect(pigments-redux.serialize()).toEqual({
       project:
         deserializer: 'ColorProject'
         timestamp: date
@@ -54,14 +54,14 @@ describe "Pigments", ->
           editorElement = atom.views.getView(e)
           colorBuffer = project.colorBufferForEditor(editor)
 
-      waitsFor 'pigments markers appended to the DOM', ->
+      waitsFor 'pigments-redux markers appended to the DOM', ->
         editorElement.querySelector('pigments-markers')
 
       runs ->
         spyOn(project, 'destroy').andCallThrough()
         spyOn(colorBuffer, 'destroy').andCallThrough()
 
-        pigments.deactivate()
+        pigments-redux.deactivate()
 
     it 'destroys the pigments project', ->
       expect(project.destroy).toHaveBeenCalled()
@@ -74,10 +74,10 @@ describe "Pigments", ->
     it 'destroys the color buffer element that were added to the DOM', ->
       expect(editorElement.querySelector('pigments-markers')).not.toExist()
 
-  describe 'pigments:project-settings', ->
+  describe 'pigments-redux:project-settings', ->
     item = null
     beforeEach ->
-      atom.commands.dispatch(workspaceElement, 'pigments:project-settings')
+      atom.commands.dispatch(workspaceElement, 'pigments-redux:project-settings')
 
       waitsFor 'active pane item', ->
         item = atom.workspace.getActivePaneItem()
@@ -261,7 +261,7 @@ describe "Pigments", ->
 
         project.onDidUpdateVariables(variableSpy)
 
-        atom.config.set 'pigments.sourceNames', ['**/*.txt']
+        atom.config.set 'pigments-redux.sourceNames', ['**/*.txt']
 
         waitsFor 'variables updated', -> variableSpy.callCount > 1
 
@@ -283,7 +283,7 @@ describe "Pigments", ->
 
           project.onDidUpdateVariables(variableSpy)
 
-          atom.config.set 'pigments.sourceNames', ['**/*.txt']
+          atom.config.set 'pigments-redux.sourceNames', ['**/*.txt']
 
           waitsFor 'variables updated', -> variableSpy.callCount > 1
 
@@ -344,7 +344,7 @@ describe "Pigments", ->
 
       project.onDidUpdateVariables(variableSpy)
 
-      atom.config.set 'pigments.sourceNames', ['**/*.txt']
+      atom.config.set 'pigments-redux.sourceNames', ['**/*.txt']
 
       waitsFor 'variables updated', -> variableSpy.callCount > 1
 
@@ -373,7 +373,7 @@ describe "Pigments", ->
     describe 'when an array of expressions is passed', ->
       it 'updates the project variables when consumed', ->
         previousVariablesCount = null
-        atom.config.set 'pigments.sourceNames', ['**/*.txt']
+        atom.config.set 'pigments-redux.sourceNames', ['**/*.txt']
 
         waitsFor 'variables initialized', ->
           project.getVariables().length is 45
