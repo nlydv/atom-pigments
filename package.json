@@ -1,6 +1,6 @@
 {
     "name": "pigments-redux",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A revival of a package to display colors in project and files.",
     "keywords": [
         "colors",
