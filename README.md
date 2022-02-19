@@ -1,4 +1,18 @@
-[![Build Status](https://travis-ci.org/abe33/atom-pigments.svg?branch=master)](https://travis-ci.org/abe33/atom-pigments)
+***This a fork of the popular yet abandoned Atom package,*** **[Pigments](https://github.com/abe33/atom-pigments)** ***by*** **[@abe33](https://github.com/abe33)*****.***
+
+***While I don't intend to actually overhaul and refactor the code, I have found and patched a few surface level bugs and updated dependencies in this fork. Most of the features were not at all accessible otherwise with the original plugin.***
+
+***Feel free to submit other fixes via pull request if you like.***
+
+***— Neel***
+
+<br>
+<br>
+<br>
+
+original README.md below:
+
+<br>
 
 ## <img src='http://abe33.github.io/atom-pigments/logo.svg' width='320' height='80'>
 
